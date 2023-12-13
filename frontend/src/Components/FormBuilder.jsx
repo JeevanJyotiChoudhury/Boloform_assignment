@@ -9,17 +9,20 @@ const FormBuilder = () => {
   const [questions, setQuestions] = useState([]);
   const [newQuestion, setNewQuestion] = useState({ type: "", data: {} });
 
-//   useEffect(() => {
-//     // Fetch all questions on component mount
-//     axios
-//       .get("http://localhost:5000/api/questions/getAll")
-//       .then((response) => setQuestions(response.data))
-//       .catch((error) => console.error("Error fetching questions:", error));
-//   }, []);
+  //   useEffect(() => {
+  //     // Fetch all questions on component mount
+  //     axios
+  //       .get("https://good-puce-puffer-yoke.cyclic.app/questions/getAll")
+  //       .then((response) => setQuestions(response.data))
+  //       .catch((error) => console.error("Error fetching questions:", error));
+  //   }, []);
 
   const addQuestion = () => {
     axios
-      .post("http://localhost:8080/questions/add", newQuestion)
+      .post(
+        "https://good-puce-puffer-yoke.cyclic.app/questions/add",
+        newQuestion
+      )
       .then((response) => {
         setQuestions([...questions, response.data]);
         setNewQuestion({ type: "", data: {} });
