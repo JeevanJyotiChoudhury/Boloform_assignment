@@ -15,9 +15,14 @@ const Comprehension = ({ question, onChange }) => {
 
   const handleOptionChange = (questionIndex, optionIndex, value) => {
     const updatedQuestions = [...questions];
-    updatedQuestions[questionIndex].options[optionIndex] = value;
-    setQuestions(updatedQuestions);
-    onChange({ passage, questions: updatedQuestions });
+    if (updatedQuestions[questionIndex]) {
+      if (!updatedQuestions[questionIndex].options) {
+        updatedQuestions[questionIndex].options = [];
+      }
+      updatedQuestions[questionIndex].options[optionIndex] = value;
+      setQuestions(updatedQuestions);
+      onChange({ passage, questions: updatedQuestions });
+    }
   };
 
   const addQuestion = () => {
@@ -54,17 +59,22 @@ const Comprehension = ({ question, onChange }) => {
             }
           />
           <label>Options:</label>
-          {q.options.map((option, optionIndex) => (
-            <div key={optionIndex}>
-              <input
-                type="text"
-                value={option}
-                onChange={(e) =>
-                  handleOptionChange(questionIndex, optionIndex, e.target.value)
-                }
-              />
-            </div>
-          ))}
+          {q.options &&
+            q.options.map((option, optionIndex) => (
+              <div key={optionIndex}>
+                <input
+                  type="text"
+                  value={option}
+                  onChange={(e) =>
+                    handleOptionChange(
+                      questionIndex,
+                      optionIndex,
+                      e.target.value
+                    )
+                  }
+                />
+              </div>
+            ))}
           <button
             onClick={() =>
               handleOptionChange(questionIndex, q.options.length, "")

@@ -7,8 +7,12 @@ const Cloze = ({ question, onChange }) => {
   const [blanks, setBlanks] = useState(question?.data?.blanks || []);
 
   const handleQuestionChange = (value) => {
-    setQuestionText(value);
-    onChange({ question: value, blanks: blanks }); // Include blanks in the onChange for the question
+    const updatedQuestion = value.replace(
+      /\$([^\$]+)\$/g,
+      (_, word) => `______`
+    );
+    setQuestionText(updatedQuestion);
+    onChange({ question: updatedQuestion, blanks });
   };
 
   const handleBlankChange = (index, value) => {
@@ -31,6 +35,7 @@ const Cloze = ({ question, onChange }) => {
         type="text"
         value={questionText}
         onChange={(e) => handleQuestionChange(e.target.value)}
+        placeholder="add word between $word$ for blank"
       />
       <label>Blanks:</label>
       {blanks.map((blank, index) => (
@@ -42,7 +47,7 @@ const Cloze = ({ question, onChange }) => {
           />
         </div>
       ))}
-      <button onClick={addBlank}>Add Blank</button>
+      <button onClick={addBlank}>Add Options</button>
     </div>
   );
 };
